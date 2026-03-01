@@ -1,0 +1,202 @@
+/* Text Animation Effects - Baseado na página de referência */
+
+/* Animação de reveal para textos */
+[data-text-reveal] {
+  opacity: 0;
+}
+
+[data-text-reveal] .line {
+  height: auto;
+  overflow: hidden;
+  display: inline;
+}
+
+@media only screen and (min-width: 490px) {
+  [data-text-reveal] .line {
+    display: inline !important;
+  }
+}
+
+/* Split text - preparação para animações */
+[data-split-text] {
+  font-kerning: none;
+}
+
+/* Fade in para elementos */
+[data-fade-in] {
+  opacity: 0;
+}
+
+/* Opacity control */
+[data-opacity] {
+  opacity: 0;
+}
+
+/* Animações de entrada suaves */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animação de reveal crescente */
+.animate-reveal {
+  animation: reveal 1.2s cubic-bezier(0.64, 0.32, 0, 1) forwards;
+}
+
+@keyframes reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animação para palavras individuais */
+.word {
+  display: inline-block;
+  opacity: 0;
+  animation: wordReveal 0.6s ease-out forwards;
+}
+
+@keyframes wordReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Delay progressivo para palavras */
+.word:nth-child(1) { animation-delay: 0.1s; }
+.word:nth-child(2) { animation-delay: 0.2s; }
+.word:nth-child(3) { animation-delay: 0.3s; }
+.word:nth-child(4) { animation-delay: 0.4s; }
+.word:nth-child(5) { animation-delay: 0.5s; }
+.word:nth-child(6) { animation-delay: 0.6s; }
+.word:nth-child(7) { animation-delay: 0.7s; }
+.word:nth-child(8) { animation-delay: 0.8s; }
+
+/* Animação para caracteres individuais */
+.char {
+  display: inline-block;
+  opacity: 0;
+  animation: charReveal 0.4s ease-out forwards;
+}
+
+@keyframes charReveal {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll reveal - elementos aparecem ao scroll */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animação de linha */
+.line-reveal {
+  overflow: hidden;
+}
+
+.line-reveal .line-inner {
+  display: block;
+  transform: translateY(100%);
+  animation: lineSlideUp 0.8s cubic-bezier(0.64, 0.32, 0, 1) forwards;
+}
+
+@keyframes lineSlideUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Stagger animation para múltiplos elementos */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.stagger-item.animate {
+  animation: staggerFadeIn 0.6s ease-out forwards;
+}
+
+@keyframes staggerFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+
+/* Underline animation */
+.underline-reveal {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-reveal::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.64, 0.32, 0, 1);
+}
+
+.underline-reveal.is-visible::after {
+  transform: scaleX(1);
+}
+
+/* Gradient text animation */
+.gradient-text-animate {
+  background: linear-gradient(90deg, currentColor 0%, currentColor 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientSlide 1.5s ease-out forwards;
+}
+
+@keyframes gradientSlide {
+  to {
+    background-position: -100% 0;
+  }
+}
