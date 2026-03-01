@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://na-engenharia.vercel.app/sitemap.xml

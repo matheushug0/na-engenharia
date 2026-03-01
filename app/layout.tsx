@@ -8,8 +8,24 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mon
 const comfortaa = Comfortaa({ subsets: ['latin'], variable: '--font-comfortaa' });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://na-engenharia.vercel.app'),
   title: 'N&A Engenharia | Energia Solar',
   description: 'Reduza sua conta de luz em até 90% e invista no que realmente importa.',
+  openGraph: {
+    title: 'N&A Engenharia | Energia Solar',
+    description: 'Reduza sua conta de luz em até 90% e invista no que realmente importa.',
+    url: 'https://na-engenharia.vercel.app',
+    siteName: 'N&A Engenharia',
+    images: ['/og_image.png'],
+    locale: 'pt_BR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'N&A Engenharia | Energia Solar',
+    description: 'Reduza sua conta de luz em até 90% e invista no que realmente importa.',
+    images: ['/og_image.png'],
+  },
   icons: {
     icon: [
       {
