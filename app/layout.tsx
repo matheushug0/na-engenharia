@@ -1,5 +1,6 @@
 import type {Metadata} from 'next';
 import { Inter, Manrope, JetBrains_Mono, Comfortaa, Plus_Jakarta_Sans } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css'; // Global styles
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -40,6 +41,17 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${manrope.variable} ${jetbrainsMono.variable} ${comfortaa.variable} ${plusJakartaSans.variable} dark`}>
+      <head>
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-0LMRHW4VFS" />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-0LMRHW4VFS');
+          `}
+        </Script>
+      </head>
       <body className="bg-[#0B1121] text-slate-50 font-sans antialiased selection:bg-amber-400/30 selection:text-amber-200" suppressHydrationWarning>
         {children}
       </body>
