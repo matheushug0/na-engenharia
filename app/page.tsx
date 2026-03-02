@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform, useInView } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { useScrollAnimations } from '@/hooks/use-scroll-animations';
+import gsap from 'gsap';
 import {
   Sun,
   TrendingDown,
@@ -62,6 +63,46 @@ const Counter = ({ end, duration = 2 }: { end: number; duration?: number }) => {
   }, [isInView, end, duration]);
 
   return <span ref={ref}>{count}</span>;
+};
+
+const ProblemSection = () => {
+  const highlightRef = useRef<HTMLSpanElement>(null);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true });
+
+  useEffect(() => {
+    if (!isInView || !highlightRef.current) return;
+    gsap.fromTo(highlightRef.current,
+      { color: '#ffffff' },
+      { color: '#fbbf24', duration: 0.6, delay: 0.3, ease: 'power2.out' }
+    );
+  }, [isInView]);
+
+  return (
+    <motion.div
+      ref={sectionRef}
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+    >
+      <div className="flex items-center gap-3 mb-6">
+        <span className="uppercase text-sm font-bold text-amber-400 tracking-widest font-mono">
+          03. O Problema
+        </span>
+      </div>
+      <h2 className="text-4xl md:text-5xl font-medium text-white tracking-tighter mb-6 font-manrope scroll-reveal">
+        A conta de luz <span ref={highlightRef}>só aumenta a cada ano</span>. Você vai continuar perdendo dinheiro?
+      </h2>
+      <div className="text-lg text-slate-400 leading-relaxed mb-8 space-y-4">
+        <p>
+          Empresas e famílias inteligentes já descobriram que investir em energia solar <strong className="text-slate-300">não é um luxo, é matemática básica</strong>.
+        </p>
+        <p>
+          Se você não gera a própria energia, está deixando na mesa um dinheiro que poderia ser <strong className="text-slate-300">o lucro da sua empresa</strong> ou <strong className="text-slate-300">o lazer da sua família</strong>.
+        </p>
+      </div>
+    </motion.div>
+  );
 };
 
 
@@ -245,9 +286,14 @@ export default function Page() {
             <AnimatedText className="text-4xl md:text-5xl font-medium text-white tracking-tighter mb-6 font-manrope">
               +800 projetos entregues com excelência ao longo de 9 anos.
             </AnimatedText>
-            <p className="text-lg text-slate-400 leading-relaxed">
-              Somos uma das maiores empresas de engenharia do Nordeste, nascida com a missão de ser referência em tecnologia, segurança e comprometimento. Na N&A Engenharia, você não compra apenas placas solares; você tem o respaldo de engenheiros eletricistas altamente qualificados.
-            </p>
+            <div className="text-lg text-slate-400 leading-relaxed space-y-4">
+              <p>
+                Somos uma das <strong className="text-slate-300">maiores empresas de engenharia do Nordeste</strong>, nascida com a missão de ser referência em tecnologia, segurança e comprometimento.
+              </p>
+              <p>
+                Na N&A Engenharia, você não compra apenas placas solares; você tem o <strong className="text-slate-300">respaldo de engenheiros eletricistas altamente qualificados</strong>.
+              </p>
+            </div>
           </motion.div>
 
           <motion.div 
@@ -288,23 +334,7 @@ export default function Page() {
       {/* Problem vs Solution */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <span className="uppercase text-sm font-bold text-amber-400 tracking-widest font-mono">
-                03. O Problema
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-medium text-white tracking-tighter mb-6 font-manrope scroll-reveal">
-              A conta de luz só aumenta a cada ano. Você vai continuar perdendo dinheiro?
-            </h2>
-            <p className="text-lg text-slate-400 leading-relaxed mb-8">
-              Empresas e famílias inteligentes já descobriram que investir em energia solar não é um luxo, é matemática básica. Se você não gera a própria energia, está deixando na mesa um dinheiro que poderia ser o lucro da sua empresa ou o lazer da sua família.
-            </p>
-          </motion.div>
+          <ProblemSection />
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -484,15 +514,26 @@ export default function Page() {
             { src: '/aparecida-pb.png', city: 'Aparecida - PB' },
             { src: '/catole_do_rocha-pb.png', city: 'Catolé do Rocha - PB' },
             { src: '/sousa-pb-2.png', city: 'Sousa - PB' }
-          ].map((item, i) => (
-            <div key={i} className="relative overflow-hidden group aspect-[4/3] border border-white/10 hover:border-amber-400/30 transition-all">
-              <Image
-                src={item.src}
-                alt={`Sistema de energia solar em ${item.city}`}
-                width={800}
-                height={600}
-                className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
-              />
+          ].map((item, i) => {
+            const ref = useRef(null);
+            const { scrollYProgress } = useScroll({
+              target: ref,
+              offset: ["start end", "end start"]
+            });
+            const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+            const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
+
+            return (
+            <div key={i} ref={ref} className="relative overflow-hidden group aspect-[4/5] border border-white/10 hover:border-amber-400/30 transition-all">
+              <motion.div className="absolute inset-0" style={{ y, scale }}>
+                <Image
+                  src={item.src}
+                  alt={`Sistema de energia solar em ${item.city}`}
+                  width={800}
+                  height={600}
+                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                />
+              </motion.div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform">
                 <div className="flex items-center gap-2">
@@ -501,7 +542,8 @@ export default function Page() {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -511,9 +553,17 @@ export default function Page() {
           <h2 className="text-5xl md:text-7xl font-medium text-white tracking-tighter mb-8 font-manrope scroll-reveal">
             A sua economia de verdade está a um clique de distância.
           </h2>
-          <p className="text-xl text-slate-400 mb-12">
-            O que você está esperando? Junte-se a centenas de empresas e famílias que já viram a economia acontecer. Fale com um de nossos engenheiros especialistas.
-          </p>
+          <div className="text-xl text-slate-400 mb-12 space-y-4">
+            <p className="font-semibold text-slate-300">
+              O que você está esperando?
+            </p>
+            <p>
+              Junte-se a <strong className="text-slate-300">centenas de empresas e famílias</strong> que já viram a economia acontecer.
+            </p>
+            <p className="font-semibold text-slate-300">
+              Fale com um de nossos engenheiros especialistas.
+            </p>
+          </div>
           <a href="http://wa.me/5583991779547" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-amber-400 text-[#0B1121] text-lg font-bold uppercase tracking-wider hover:bg-amber-300 transition-colors">
             Solicitar Simulação Gratuita Pelo WhatsApp
           </a>
@@ -596,7 +646,7 @@ export default function Page() {
         <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} N&A Engenharia. Todos os direitos reservados.</p>
           <div className="flex items-center gap-2">
-            <span className="font-sans">desenvolvido por:</span>
+            <span className="font-jakarta">desenvolvido por:</span>
             <a href="https://www.fluiconnect.com.br/" target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
               <Image src="/flui.png" alt="Flui Connect" width={40} height={14} className="opacity-70" />
             </a>

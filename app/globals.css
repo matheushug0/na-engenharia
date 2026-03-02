@@ -7,6 +7,7 @@
   --font-manrope: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-comfortaa: var(--font-comfortaa), ui-sans-serif, system-ui, sans-serif;
+  --font-jakarta: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {

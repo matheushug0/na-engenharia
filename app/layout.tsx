@@ -1,11 +1,12 @@
 import type {Metadata} from 'next';
-import { Inter, Manrope, JetBrains_Mono, Comfortaa } from 'next/font/google';
+import { Inter, Manrope, JetBrains_Mono, Comfortaa, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css'; // Global styles
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' });
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 const comfortaa = Comfortaa({ subsets: ['latin'], variable: '--font-comfortaa' });
+const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-jakarta' });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://na-engenharia.vercel.app'),
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${manrope.variable} ${jetbrainsMono.variable} ${comfortaa.variable} dark`}>
+    <html lang="pt-BR" className={`${inter.variable} ${manrope.variable} ${jetbrainsMono.variable} ${comfortaa.variable} ${plusJakartaSans.variable} dark`}>
       <body className="bg-[#0B1121] text-slate-50 font-sans antialiased selection:bg-amber-400/30 selection:text-amber-200" suppressHydrationWarning>
         {children}
       </body>
