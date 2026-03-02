@@ -521,10 +521,10 @@ export default function Page() {
               offset: ["start end", "end start"]
             });
             const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
-            const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
+            const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1.3, 1.2]);
 
             return (
-            <div key={i} ref={ref} className="relative overflow-hidden group aspect-[4/5] border border-white/10 hover:border-amber-400/30 transition-all">
+            <div key={i} ref={ref} className="relative overflow-hidden group aspect-[1/1] border border-white/10 hover:border-amber-400/30 transition-all">
               <motion.div className="absolute inset-0" style={{ y, scale }}>
                 <Image
                   src={item.src}
